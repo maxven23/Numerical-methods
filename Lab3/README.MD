@@ -6,4 +6,5 @@ Laboratory work #3: CALCULATING INTEGRALS
 3) Simpson Method
 
 - RECTANGE METHOD
+
 This method based on simple aprocsimation of itegrals related with rectangles

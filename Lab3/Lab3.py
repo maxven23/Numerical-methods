@@ -50,6 +50,18 @@ def Simpson_method(n, func=init_func):
 
 #-------------------------------------------------------
 
+def Gauss_method(n, func=init_func):
+    h = (b - a) / n
+    X = np.linspace(a, b, n)
+    Y = [init_func(i) for i in X]
+    res = 0
+    for i in range(1, n):
+        x1 = (X[i] + X[i - 1]) / 2 - (X[i] - X[i-1]) / (2*math.sqrt(3))
+        x2 = (X[i] + X[i - 1]) / 2 + (X[i] - X[i-1]) / (2*math.sqrt(3))
+        res += (X[i] - X[i-1]) * (func(x1) + func(x2)) / 2
+    return res
+
+#-------------------------------------------------------
 correct = -1
 #correct = 3 / (math.e * math.e)
 
@@ -61,6 +73,7 @@ print("Точное значение: \t", correct)
 print("Метод прямоугольников: \t", rect_method(n))
 print("Метод трапеций: \t", trapez_method(n))
 print("Метод Симпсона: \t", Simpson_method(n))
+print("Метод Гаусса: \t\t", Gauss_method(n))
 
 #-------------------------------------------------------
 
@@ -175,11 +188,13 @@ hs = []
 rectY = []
 trapezY = []
 simpsonY = []
-for i in range(3, 1000, 2):
+gaussY = []
+for i in range(30, 100):
     hs.append(((b - a) / i))
-    rectY.append(log(abs(rect_method(i) - correct)))
-    trapezY.append(log(abs(trapez_method(i) - correct)))
+    rectY.append((abs(rect_method(i) - correct)))
+    trapezY.append((abs(trapez_method(i) - correct)))
     simpsonY.append(log(abs(Simpson_method(i) - correct)))
+    gaussY.append(log(abs(Gauss_method(i) - correct)))
        
 plt.title("Зависимость ошибки от размера шага")
 plt.xlabel("h")
@@ -187,6 +202,7 @@ plt.ylabel("log(err)")
 plt.grid(True)
 plt.plot(hs, rectY, color="white", linewidth=2, label="Rectangles method")
 plt.plot(hs, trapezY, color="aqua", linewidth=2, label="Trapezes method")
-plt.plot(hs, simpsonY, color="lime", linewidth=2, label="Simpson method")
+#plt.plot(hs, simpsonY, color="lime", linewidth=2, label="Simpson method")
+#plt.plot(hs, gaussY, color="orange", linewidth=2, label="Gauss method")
 plt.legend(loc='lower right')
 plt.show()
